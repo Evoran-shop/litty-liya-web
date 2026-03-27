@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Litty Liya — Luxury Makeup</title>
+  <link rel="stylesheet" href="style.css"/>
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet"/>
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <!-- Three.js CDN (r128) — used for 3D hero canvas -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+
+  <!-- ===================== CUSTOM CURSOR ===================== -->
+  <!-- Luxury brand feel — follows mouse with a glowing dot -->
+  <div class="cursor-dot" id="cursor-dot"></div>
+  <div class="cursor-ring" id="cursor-ring"></div>
+
+  <!-- ===================== LOADING SCREEN ===================== -->
+  <div class="loader" id="loader">
+    <div class="loader-inner">
+      <div class="loader-logo">
+        <span class="loader-l">L</span><span class="loader-l">i</span><span class="loader-l">t</span><span class="loader-l">t</span><span class="loader-l">y</span>
+        <span class="loader-space"> </span>
+        <span class="loader-l accent">L</span><span class="loader-l accent">i</span><span class="loader-l accent">y</span><span class="loader-l accent">a</span>
+      </div>
+      <div class="loader-bar"><div class="loader-fill"></div></div>
+      <p class="loader-tagline">Preparing your experience...</p>
+    </div>
+  </div>
+
+  <!-- ===================== NAVBAR ===================== -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="#home" class="nav-logo">Litty <span>Liya</span></a>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#home"     class="nav-link active">Home</a></li>
+        <li><a href="#products" class="nav-link">Products</a></li>
+        <li><a href="#about"    class="nav-link">About</a></li>
+        <li><a href="#contact"  class="nav-link">Contact</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button class="cart-btn" id="cart-btn" aria-label="Cart">
+          <i class="fas fa-bag-shopping"></i>
+          <span class="cart-badge" id="cart-badge">0</span>
+        </button>
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+    <div class="mobile-menu" id="mobile-menu">
+      <a href="#home"     class="mobile-link">Home</a>
+      <a href="#products" class="mobile-link">Products</a>
+      <a href="#about"    class="mobile-link">About</a>
+      <a href="#contact"  class="mobile-link">Contact</a>
+    </div>
+  </nav>
+
+  <!-- ===================== HERO SECTION ===================== -->
+  <!--
+    3D HERO BREAKDOWN:
+    - #hero-canvas  → Three.js renders here (full section background)
+    - .hero-content → Text sits above canvas (z-index: 2)
+    - Mouse movement updates targetX/targetY in script.js
+      which rotates the 3D object via lerp (smooth follow)
+    - On mobile (< 768px) Three.js is disabled for performance
+  -->
+  <section class="hero" id="home">
+    <!-- Three.js canvas injected here by script.js -->
+    <canvas id="hero-canvas"></canvas>
+
+    <!-- Dark gradient overlay sits between canvas and text -->
+    <div class="hero-overlay"></div>
+
+    <!-- Floating ambient particles (CSS only, lightweight) -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Hero text content -->
+    <div class="hero-content" id="hero-content">
+      <p class="hero-pre" data-aos="fade-up" data-delay="0">✦ Premium Beauty Collection ✦</p>
+      <h1 class="hero-title" data-aos="fade-up" data-delay="1">
+        Litty<br/><em>Liya</em>
+      </h1>
+      <p class="hero-tagline" data-aos="fade-up" data-delay="2">
+        Where Beauty Meets Luxury — Define Your Glow
+      </p>
+      <div class="hero-actions" data-aos="fade-up" data-delay="3">
+        <a href="#products" class="btn-primary">
+          <span>Shop Now</span>
+          <i class="fas fa-arrow-right"></i>
+        </a>
+        <a href="#about" class="btn-ghost">Our Story</a>
+      </div>
+    </div>
+
+    <!-- Scroll indicator -->
+    <div class="hero-scroll">
+      <span>Scroll</span>
+      <div class="hero-scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- ===================== MARQUEE STRIP ===================== -->
+  <!-- Animated scrolling text strip between hero and products -->
+  <div class="marquee-strip">
+    <div class="marquee-track">
+      <span>VELVET MATTE ✦</span><span>ROSE GOLD ✦</span>
+      <span>LUXURY BEAUTY ✦</span><span>CRUELTY FREE ✦</span>
+      <span>LITTY LIYA ✦</span><span>DEFINE YOUR GLOW ✦</span>
+      <span>VELVET MATTE ✦</span><span>ROSE GOLD ✦</span>
+      <span>LUXURY BEAUTY ✦</span><span>CRUELTY FREE ✦</span>
+      <span>LITTY LIYA ✦</span><span>DEFINE YOUR GLOW ✦</span>
+    </div>
+  </div>
+
+  <!-- ===================== PRODUCTS SECTION ===================== -->
+  <section class="section products-section" id="products">
+    <div class="container">
+      <div class="section-header reveal">
+        <p class="section-pre">Curated for You</p>
+        <h2 class="section-title">Our <span class="accent">Collection</span></h2>
+        <p class="section-sub">Handpicked luxury makeup that celebrates your natural beauty.</p>
+      </div>
+      <!-- Category Filter -->
+      <div class="category-tabs reveal" id="category-tabs"></div>
+      <!-- Products Grid — populated by script.js -->
+      <div class="product-grid" id="product-grid"></div>
+    </div>
+  </section>
+
+  <!-- ===================== ABOUT SECTION ===================== -->
+  <section class="section about-section" id="about">
+    <div class="container about-grid">
+      <div class="about-img reveal">
+        <img src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=700&q=80" alt="Litty Liya brand" loading="lazy"/>
+        <div class="about-img-badge">✦ Est. 2024</div>
+        <!-- Floating 3D-style decorative ring -->
+        <div class="about-ring"></div>
+      </div>
+      <div class="about-text reveal">
+        <p class="section-pre">Who We Are</p>
+        <h2 class="section-title">Born from <span class="accent">Passion</span></h2>
+        <p class="about-lead">Litty Liya is more than makeup — it's a movement. A celebration of every face, every tone, every story.</p>
+        <p class="about-body">We believe beauty shouldn't be a standard — it should be an expression. Our collections are crafted with premium ingredients, cruelty-free formulas, and the kind of pigment that makes every look unforgettable.</p>
+        <div class="about-stats">
+          <div class="stat reveal"><span class="stat-n" data-count="500">0</span><span class="stat-plus">+</span><span class="stat-l">Happy Customers</span></div>
+          <div class="stat reveal"><span class="stat-n" data-count="50">0</span><span class="stat-plus">+</span><span class="stat-l">Products</span></div>
+          <div class="stat reveal"><span class="stat-n" data-count="100">0</span><span class="stat-plus">%</span><span class="stat-l">Cruelty Free</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CONTACT SECTION ===================== -->
+  <section class="section contact-section" id="contact">
+    <div class="container">
+      <div class="section-header reveal">
+        <p class="section-pre">Say Hello</p>
+        <h2 class="section-title">Get In <span class="accent">Touch</span></h2>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-info reveal">
+          <div class="contact-item"><i class="fas fa-envelope"></i><span><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="3f4c565250060906090609060906097f58525e5653115c5052">[email&#160;protected]</a></span></div>
+          <div class="contact-item"><i class="fab fa-whatsapp"></i><span>+880 1678-064162</span></div>
+          <div class="contact-item"><i class="fas fa-map-marker-alt"></i><span>Chittagong, Bangladesh</span></div>
+          <div class="socials">
+            <a href="https://www.youtube.com/@Evoran-r2c"                          target="_blank" class="social-btn" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+            <a href="https://www.facebook.com/profile.php?id=61581798921211"       target="_blank" class="social-btn" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://www.tiktok.com/@blanky16519"                          target="_blank" class="social-btn" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+          </div>
+        </div>
+        <form class="contact-form reveal" id="contact-form" novalidate>
+          <div class="form-group">
+            <label for="c-name">Your Name</label>
+            <input type="text" id="c-name" placeholder="Full name" required/>
+          </div>
+          <div class="form-group">
+            <label for="c-email">Email</label>
+            <input type="email" id="c-email" placeholder="your@email.com" required/>
+          </div>
+          <div class="form-group">
+            <label for="c-msg">Message</label>
+            <textarea id="c-msg" rows="4" placeholder="Your message..." required></textarea>
+          </div>
+          <button type="submit" class="btn-primary form-submit">
+            Send Message <i class="fas fa-paper-plane"></i>
+          </button>
+          <p class="form-success" id="form-success"><i class="fas fa-check-circle"></i> Message sent!</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <a href="#home" class="nav-logo">Litty <span>Liya</span></a>
+      <p class="footer-copy">&copy; <span id="yr"></span> Litty Liya. All rights reserved.</p>
+      <div class="footer-socials">
+        <a href="https://www.youtube.com/@Evoran-r2c"                          target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+        <a href="https://www.facebook.com/profile.php?id=61581798921211"       target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://www.tiktok.com/@blanky16519"                          target="_blank" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===================== CART SIDEBAR ===================== -->
+  <div class="cart-overlay" id="cart-overlay"></div>
+  <aside class="cart-sidebar" id="cart-sidebar">
+    <div class="cart-header">
+      <h3>Your Cart <span id="cart-count-label"></span></h3>
+      <button class="cart-close" id="cart-close"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="cart-items" id="cart-items"></div>
+    <div class="cart-footer">
+      <div class="cart-total">
+        <span>Total</span>
+        <span id="cart-total">৳ 0</span>
+      </div>
+      <button class="btn-primary cart-checkout" id="cart-checkout">
+        <i class="fab fa-whatsapp"></i> Checkout via WhatsApp
+      </button>
+      <button class="btn-ghost cart-clear" id="cart-clear">Clear Cart</button>
+    </div>
+  </aside>
+
+  <!-- ===================== PRODUCT MODAL ===================== -->
+  <div class="modal-overlay" id="modal-overlay"></div>
+  <div class="product-modal" id="product-modal">
+    <button class="modal-close" id="modal-close"><i class="fas fa-times"></i></button>
+    <div class="modal-content" id="modal-content"></div>
+  </div>
+
+  <!-- Back to top -->
+  <button
